@@ -1,0 +1,75 @@
+$passed = #6AFF6A;
+$running = #E8C94C;
+$failed = #FF7F60;
+$pending = #A94CE8;
+$skipped = #53CAFF;
+
+.pending, .skipped, .running, .passed, .failed {
+  margin: 0.2rem 0;
+
+  font-family: 'Helvetica Neue', Arial, serif;
+  font-weight: 300;
+  font-size: 1.2rem;
+
+  &::before {
+    display: inline-block;
+    width: 5px;
+    height: 1.6rem;
+    margin-right: 3px;
+    vertical-align: bottom;
+    content: '';
+    transition: background-color 0.3s;
+    background-color: $pending;
+  }
+}
+
+.pending {
+}
+
+.skipped {
+  &::before {
+    background-color: $skipped;
+  }
+}
+
+.running {
+  &::before {
+    background-color: $running;
+  }
+}
+
+.passed {
+  &::before {
+    background-color: $passed;
+  }
+}
+
+.failed {
+  &::before {
+    background-color: $failed;
+  }
+}
+
+.button {
+  display: inline-block;
+  padding: 0.5rem;
+  margin-right: 0.5rem;
+
+  cursor: pointer;
+  background-color: $running;
+
+  font-family: 'Helvetica Neue', Arial, serif;
+  font-weight: 500;
+  font-size: 1.2rem;
+
+  &:hover {
+    background-color: $passed;
+  }
+}
+
+.placeholder {
+  display: inline-block;
+  height: 1.5rem;
+  padding: 0.5rem;
+  margin-right: 0.5rem;
+}

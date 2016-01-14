@@ -1,0 +1,17 @@
+{
+  "beep": {
+    "offset": 132300,
+    "end": 176400,
+    "duration": 44100
+  },
+  "seeSaw": {
+    "offset": 44100,
+    "end": 88200,
+    "duration": 44100
+  },
+  "silence": {
+    "offset": 0,
+    "end": 44100,
+    "duration": 44100
+  }
+}
