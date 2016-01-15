@@ -43,6 +43,7 @@ module.exports = {
         main: ['index.html', '*.js'],
       },
       updateStrategy: 'changed',
+      scope: '/html-audio-test/',
     }),
     new HtmlWepbackPlugin({
       filename: 'index.html',
