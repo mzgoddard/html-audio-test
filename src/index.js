@@ -1,5 +1,7 @@
 'use strict';
 
+require('offline-plugin/runtime').install();
+
 import $ from 'jquery';
 import _ from 'lodash';
 

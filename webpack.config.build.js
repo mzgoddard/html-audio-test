@@ -1,14 +1,15 @@
 'use strict';
 
 var HtmlWepbackPlugin = require('html-webpack-plugin');
+var OfflinePlugin = require('offline-plugin');
 var UglifyJsPlugin = require('webpack').optimize.UglifyJsPlugin;
 
 module.exports = {
   context: '.',
-  entry: './src',
+  entry: { main: './src' },
   output: {
     path: 'dist',
-    filename: '[hash].js',
+    filename: '[name].js',
   },
   module: {
     loaders: [
@@ -33,10 +34,16 @@ module.exports = {
       {
         test: /\.(png|wav|mp3|m4a|ogg|opus)$/,
         loader: 'file-loader',
-      }
+      },
     ],
   },
   plugins: [
+    new OfflinePlugin({
+      caches: {
+        main: ['index.html', '*.js'],
+      },
+      updateStrategy: 'changed',
+    }),
     new HtmlWepbackPlugin({
       filename: 'index.html',
       template: './src/index.html',
@@ -44,6 +51,7 @@ module.exports = {
       templateData: {
         version: require('./package.json').version,
       },
+      chunks: ['main'],
     }),
     new UglifyJsPlugin(),
   ],
