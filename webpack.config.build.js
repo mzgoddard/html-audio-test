@@ -6,7 +6,7 @@ var UglifyJsPlugin = require('webpack').optimize.UglifyJsPlugin;
 
 module.exports = {
   context: '.',
-  entry: { main: './src' },
+  entry: { main: './src/production' },
   output: {
     path: 'dist',
     filename: '[name].js',
