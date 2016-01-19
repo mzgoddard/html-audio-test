@@ -23,6 +23,10 @@ module.exports = {
         loader: 'exports-loader?jQuery!script-loader',
       },
       {
+        test: /soundjs/,
+        loader: 'exports-loader?createjs!script-loader',
+      },
+      {
         test: /\.js$/,
         exclude: /node_modules/,
         loader: 'baggage-loader?[file].styl',

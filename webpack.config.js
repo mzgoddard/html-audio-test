@@ -22,6 +22,10 @@ module.exports = {
         loader: 'exports-loader?jQuery!script-loader',
       },
       {
+        test: /soundjs/,
+        loader: 'exports-loader?createjs!script-loader',
+      },
+      {
         test: /\.js$/,
         exclude: /node_modules/,
         loader: 'baggage-loader?[file].styl',
@@ -33,10 +37,6 @@ module.exports = {
       {
         test: /\.(png|wav|mp3|m4a|ogg|opus)$/,
         loader: 'file-loader',
-      },
-      {
-        test: /soundjs/,
-        loader: 'exports-loader?createjs!script-loader',
       },
     ],
   },
