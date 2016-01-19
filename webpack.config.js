@@ -34,7 +34,15 @@ module.exports = {
         test: /\.(png|wav|mp3|m4a|ogg|opus)$/,
         loader: 'file-loader',
       },
+      {
+        test: /soundjs/,
+        loader: 'exports-loader?createjs!script-loader',
+      },
     ],
+  },
+  resolve: {
+    modulesDirectories: ['node_modules', 'vendor'],
+    extension: ['', '.js', '.min.js'],
   },
   plugins: [
     new HtmlWepbackPlugin({

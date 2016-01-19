@@ -8,6 +8,10 @@ import ReactDOM from 'react-dom';
 
 import Promise from 'bluebird';
 
+import { Howl } from 'howler';
+
+import { Sound } from 'soundjs';
+
 import { test, tests } from './test';
 
 import beepUri from './sounds/g4.wav';
@@ -39,7 +43,7 @@ class UserAction extends Component {
 function userAction(onClick) {
   return new Promise((resolve, reject) => {
     let _onClick = () => {
-      Promise.try(onClick).delay(300).then(resolve, reject);
+      Promise.try(onClick || (() => {})).delay(300).then(resolve, reject);
     };
     render(<div><UserAction onClick={_onClick} /></div>);
   });
@@ -232,13 +236,13 @@ test('user action tag playback', userLessTag, function() {
 });
 
 let userLessSecondSource = test('user-less source second playback', function() {
-  return webaudioPlays(seeSawBufferPromise)
+  return webaudioPlays(beepBufferPromise)
   .then(userResponse)
   .then(webaudioStopAll);
 });
 
 let userLessSecondTag = test('user-less tag second playback', function() {
-  let tagPromise = prepTag(seeSawUri);
+  let tagPromise = prepTag(beepUri);
   return tagPromise
   .then(tag => tag.play())
   .then(userResponse)
@@ -294,6 +298,62 @@ test('one tag and one web audio source playing together', function() {
   .then(webaudioStopAll);
 });
 
+test('howler', function() {
+  if (typeof Howl === 'undefined') {
+    throw new Error('Howl not defined');
+  }
+});
+
+test('howler repeated sprite playback', function() {
+  let h = new Howl({
+    urls: [soundspriteUri],
+    sprite: {
+      beep: [3000, 1000],
+    },
+  });
+  let play = function() {
+    return new Promise(resolve => { h.play('beep'); h.on('end', resolve); })
+    .delay(1);
+  };
+  return new Promise((resolve, reject) => (h.on('load', resolve), h.on('loaderror', reject)))
+  .return()
+  .then(userAction)
+  .then(unmount)
+  .then(play)
+  .then(play)
+  .then(userResponse);
+});
+
+test('soundjs', function() {
+  if (typeof Sound === 'undefined') {
+    throw new Error('Sound not defined');
+  };
+});
+
+test('soundjs repeated sprite playback', function() {
+  Sound.registerSounds([
+    {
+      src: soundspriteUri,
+      data: {
+        audioSprite: [
+          { id: 'beep', startTime: 3000, duration: 1000 },
+        ],
+      },
+    },
+  ]);
+  let play = function() {
+    return new Promise(resolve => { Sound.play('beep'); setTimeout(resolve, 1000); })
+    .delay(1);
+  };
+  return new Promise((resolve, reject) => (Sound.on('fileload', resolve), Sound.on('fileerror', reject)))
+  .return()
+  .then(userAction)
+  .then(unmount)
+  .then(play)
+  .then(play)
+  .then(userResponse);
+});
+
 function Rerun() {
   return <div className="button" onClick={run}>Run Again</div>;
 }
@@ -320,4 +380,5 @@ function run() {
   .then(() => render(<Rerun />));
 }
 
+unmount();
 run();

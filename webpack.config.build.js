@@ -37,6 +37,10 @@ module.exports = {
       },
     ],
   },
+  resolve: {
+    modulesDirectories: ['node_modules', 'vendor'],
+    extension: ['', '.min.js', '.js'],
+  },
   plugins: [
     new OfflinePlugin({
       caches: {
